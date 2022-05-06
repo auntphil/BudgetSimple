@@ -20,6 +20,8 @@ class Oauth extends React.Component {
         localStorage.setItem("baseurl",this.state.baseurl)
         localStorage.setItem("clientid",this.state.clientid)
         localStorage.setItem("clientsecret",this.state.clientsecret)
+
+        this.props.update_localStorage(true)
     }
 
     render(){
