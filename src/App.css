@@ -17,7 +17,7 @@
   }
 }
 
-.titleLink{
+.titleLink, a:active.titleLink, a:hover.titleLink{
   color: white;
   text-decoration: none;
   display: inline-block;
