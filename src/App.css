@@ -36,15 +36,19 @@
 }
 
 .App-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   background-color: #282c34;
   min-height: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
   padding: 0px 10px;
+}
+
+#username {
+  font-size: 0.7em;
 }
 
 .App-link {

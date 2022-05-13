@@ -1,62 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Header from './header'
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Header from "./header"
 import Oauth from "./routes/oauth"
 import Home from "./routes/home"
+import { getRefreshToken } from './api/tokens';
+import { getUsername } from './api/get';
 
-class App extends React.Component{
+function App() {
 
-  constructor(props){
-    super(props)
+  const [loading, setLoading ] = useState(true)
+  const [ access ] = useState( localStorage.getItem("access") ? localStorage.getItem("access") : "" )
+  const [ refresh ] = useState( localStorage.getItem("refresh") ? localStorage.getItem("refresh") : "" )
+  const [ baseUrl, setBaseurl ] = useState( localStorage.getItem("baseurl") ? localStorage.getItem("baseurl") : "" )
+  const [ time ] = useState (localStorage.getItem("time") ? localStorage.getItem("time") : "" )
+  const [ username, setUsername] = useState("")
 
-    this.state={
-      localStorage: null,
-      connection: null
+  useEffect(() => {
+    if( access !== null && typeof access !== "undefined" && access !== "undefined" && access !== ""){
+      if( Date.now() - time > 1036800 ){
+        //Checking if the Token is older than 13 Days. 1036800
+        getRefreshToken(refresh, baseUrl, setUsername)
+      }else{
+        getUsername(baseUrl, access, setUsername)
+      }
+    } else {
+      if(!window.location.pathname.includes("oauth")){
+        window.location.replace("/oauth")
+      }
     }
-  }
+  }, [access, baseUrl, refresh, time])
 
-  update_localStorage = (localStorage) => {
-    this.setState({localStorage})
-  }
-
-  componentDidMount = () => {
-    const baseurl = localStorage.getItem("baseurl")
-    const clientid = localStorage.getItem("clientid")
-    const clientsecret = localStorage.getItem("clientsecret")
-    if ( baseurl == null || clientid == null || clientsecret == null ){
-      this.update_localStorage(false)
-    }else{
-      this.update_localStorage(true)
-    }
-  }
-
-  
-  render(){
-    return (
-      <div className="App">
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            {this.state.localStorage === false 
-              ?
-                <>
-                  /**No Local Storage Information */
-                  <Route path="/" element={<Oauth localStorage={this.state.localStorage} update_localStorage = {this.update_localStorage} />} />
-                  <Route path="/*" element={<Oauth localStorage={this.state.localStorage} update_localStorage = {this.update_localStorage} />} />
-                </>
-              :
-                <>
-                  <Route path="/" element={<Home localStorage={this.state.localStorage} />} />
-                </>
-            }
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  }
+  return (
+    <div className="App">    
+      <Header username={username} />   
+      <Routes>
+        <Route exact path="/" element={<Home username={username} />} />
+        <Route path="/oauth" element={<Oauth baseUrl={baseUrl} setBaseurl={setBaseurl}  />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
