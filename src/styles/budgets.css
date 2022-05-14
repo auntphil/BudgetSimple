@@ -1,0 +1,20 @@
+.budgetItem {
+  border-bottom: gray 1px solid;
+  margin: 5px 0px;
+  padding: 5px 0px;
+}
+
+.budgetItem:last-child {
+  border-bottom: none;
+}
+
+.budgetItem .remaining {
+  font-weight: bold;
+}
+
+.budgetItem .amount {
+  font-size: .75em;
+  font-weight: bold;
+  font-family: "Poiret One", cursive;
+}
+/*# sourceMappingURL=budgets.css.map */

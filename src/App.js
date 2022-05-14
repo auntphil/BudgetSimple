@@ -8,6 +8,7 @@ import Oauth from "./routes/oauth"
 import Home from "./routes/home"
 import { getRefreshToken } from './api/tokens';
 import { getUsername } from './api/get';
+import Budgets from './routes/budgets';
 
 function App() {
 
@@ -35,11 +36,15 @@ function App() {
 
   return (
     <div className="App">    
-      <Header username={username} />   
-      <Routes>
-        <Route exact path="/" element={<Home username={username} />} />
-        <Route path="/oauth" element={<Oauth baseUrl={baseUrl} setBaseurl={setBaseurl}  />} />
-      </Routes>
+      <Header username={username} />
+      <div id="headerSpacer"></div>
+      <div className='page'>
+        <Routes>
+          <Route exact path="/" element={<Home username={username} />} />
+          <Route path="/budgets" element={<Budgets baseUrl={baseUrl} access={access} />} />
+          <Route path="/oauth" element={<Oauth baseUrl={baseUrl} setBaseurl={setBaseurl}  />} />
+        </Routes>
+      </div>
     </div>
   );
 }
