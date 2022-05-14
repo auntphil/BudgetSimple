@@ -1,12 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Poiret+One&display=swap');
 
+$logoPrimaryFont: 'Fredericka the Great', cursive
+$logoSecondaryFont: 'Poiret One', cursive
+
 .loadingWrapper
     display: flex
+    justify-content: center
+    align-items: center
+    height: 100vh
+    width: 100vw
+    position: absolute
+    top: 0
+    z-index: 10
+    background-color: white
+    span
+        font-family: $logoPrimaryFont
+        font-size: 1.5em
+        font-weight: bold
+        margin: 0px 15px
 
 #root
   display: flex
   flex-direction: column
   min-height: 100vh
+  position: relative
 
 
 #App
@@ -30,11 +47,11 @@
 
 
 .budget
-  font-family: 'Fredericka the Great', cursive
+  font-family: $logoPrimaryFont
 
 
 .simple
-  font-family: 'Poiret One', cursive
+  font-family: $logoSecondaryFont
 
 .App-header 
   display: flex
@@ -46,6 +63,12 @@
   font-size: calc(10px + 2vmin)
   color: white
   padding: 0px 10px
+  position: relative
+  z-index: 11
+
+#subHeader
+  position: relative
+  z-index: 11
 
 
 #username
