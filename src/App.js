@@ -40,7 +40,7 @@ function App() {
       <div id="headerSpacer"></div>
       <div className='page'>
         <Routes>
-          <Route exact path="/" element={<Home username={username} />} />
+          <Route exact path="/" element={<Home username={username} baseUrl={baseUrl} access={access} />} />
           <Route path="/budgets" element={<Budgets baseUrl={baseUrl} access={access} />} />
           <Route path="/oauth" element={<Oauth baseUrl={baseUrl} setBaseurl={setBaseurl}  />} />
         </Routes>

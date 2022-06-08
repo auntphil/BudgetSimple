@@ -18,7 +18,7 @@ function getCurrentMonthLastDay(){
 
 }
 
-export async function getUsername(baseUrl, access, setUsername){
+export function getUsername(baseUrl, access, setUsername){
     fetch(`${baseUrl}/api/v1/about/user`, {
         headers: {
             'authorization': `Bearer ${access}`
@@ -30,7 +30,7 @@ export async function getUsername(baseUrl, access, setUsername){
     })
 }
 
-export async function getBudgets(baseUrl, access, setBudgets, setLoading){
+export function getBudgets(baseUrl, access, setBudgets, setLoading){
     const firstDay = getCurrentMonthFirstDay()
     const lastDay = getCurrentMonthLastDay()
     fetch(`${baseUrl}/api/v1/budget-limits?start=${firstDay}&end=${lastDay}`,{
@@ -68,5 +68,38 @@ export async function getBudgets(baseUrl, access, setBudgets, setLoading){
     })
     .catch(error => {
      console.error('Error:', error)   
+    })
+}
+
+export function getCharts(baseUrl, access, setCharts, setLoading){
+    const firstDay = getCurrentMonthFirstDay()
+    const lastDay = getCurrentMonthLastDay()
+    fetch(`${baseUrl}/api/v1/chart/account/overview?start=${firstDay}&end=${lastDay}`,{
+        headers: {
+            'authorization': `Bearer ${access}`
+        }
+    })
+    .then( response => response.json())
+    .then( response => {
+        let d = new Date()
+        let data = {}
+        const currentDay = d.getDate()
+        data.names = []
+        data.entry = []
+        
+        for ( let x = 0; x < currentDay; x++ ){
+            let temp = {}
+            temp.name = Object.keys(response[0].entries)[x]
+            response.forEach( budget => {
+                temp[budget.label] = budget.entries[temp.name]
+                if(x == 0 ){
+                    data.names.push(budget.label)
+                }
+            });
+
+            data.entry.push(temp)
+        }
+        setCharts(data)
+        setLoading(false)
     })
 }
