@@ -1,3 +1,11 @@
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+export function getMonth(d){
+    return monthNames[d.getMonth()];
+}
+
 function getCurrentMonthFirstDay(){
     let d = new Date()
     return `${d.getFullYear().toString()}-${(d.getMonth() + 1).toString()}-01`
@@ -40,11 +48,12 @@ export async function getBudgets(baseUrl, access, setBudgets, setLoading){
         })
         .then(response => response.json())
         .then(data => {
-
             limits.data.map( (l)=> {
                 for(let i = 0; i < data.data.length; i++){
-                    if( l.id == data.data[i].id ){
+                    if( l.attributes.budget_id == data.data[i].id ){
                         l.attributes.name = data.data[i].attributes.name
+                        l.attributes.percent = parseFloat((Math.abs(l.attributes.spent) / l.attributes.amount) ).toFixed(2)
+                        l.attributes.remaining = parseFloat(l.attributes.amount - (Math.abs(l.attributes.spent))).toFixed(2)
                         break
                     }
                 }
@@ -53,6 +62,11 @@ export async function getBudgets(baseUrl, access, setBudgets, setLoading){
             setBudgets(limits.data)
             setLoading(false)
         })
-
+        .catch(error => {
+         console.error('Error:', error)   
+        })   
+    })
+    .catch(error => {
+     console.error('Error:', error)   
     })
 }

@@ -1,20 +1,89 @@
-.budgetItem {
-  border-bottom: gray 1px solid;
-  margin: 5px 0px;
-  padding: 5px 0px;
+#budgetList {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  gap: 15px;
 }
 
-.budgetItem:last-child {
-  border-bottom: none;
+#budgetList .budgetItem {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr 20px;
+      grid-template-rows: 1fr 20px;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "title remain" "bar bar";
 }
 
-.budgetItem .remaining {
+#budgetList .budgetItem .title {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: .9em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  margin-left: 5px;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: title;
   font-weight: bold;
 }
 
-.budgetItem .amount {
+#budgetList .budgetItem .remaining {
+  font-weight: bold;
+  font-size: 1.5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: remain;
+}
+
+#budgetList .budgetItem .amount {
   font-size: .75em;
-  font-weight: bold;
-  font-family: "Poiret One", cursive;
+  text-align: right;
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  height: 20px;
+}
+
+#budgetList .budgetItem .budgetBarwrapper {
+  border: 1px solid black;
+  width: 100%;
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: bar;
+}
+
+#budgetList .budgetItem .budgetBarwrapper .inner {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70% 1fr;
+      grid-template-columns: 70% 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+
+#budgetList .budgetItem .budgetBarwrapper .inner .budgetBar {
+  height: 100%;
+}
+
+#budgetList .budgetItem .budgetBarwrapper .inner .overage {
+  border-left: 1px solid black;
+  height: 100%;
 }
 /*# sourceMappingURL=budgets.css.map */
